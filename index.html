@@ -2,72 +2,788 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Kian Luppoy - Personal Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kianzh3n IT Bussiness solution</title>
+    <!-- Google Fonts: Inter and Space Grotesk -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for Light Mode (Default) */
+        :root {
+            --bg-color: #f4f4f6;
+            --surface-color: #ffffff;
+            --surface-alt: #eaeaea;
+            --border-color: #111111;
+            --accent-lime: #ccff00;
+            --accent-lime-hover: #b3e600;
+            --text-main: #111111;
+            --text-muted: #555555;
+            --shadow-brut: 4px 4px 0px #111111;
+            --shadow-brut-sm: 2px 2px 0px #111111;
+        }
+
+        /* Dark Mode Theme Variables */
+        [data-theme="dark"] {
+            --bg-color: #0d0d0f;
+            --surface-color: #16161a;
+            --surface-alt: #1e1e24;
+            --border-color: #f4f4f6;
+            --accent-lime: #b8e600;
+            --accent-lime-hover: #ccff00;
+            --text-main: #f4f4f6;
+            --text-muted: #a0a0ab;
+            --shadow-brut: 4px 4px 0px #f4f4f6;
+            --shadow-brut-sm: 2px 2px 0px #f4f4f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            background-image: radial-gradient(var(--border-color) 0.75px, transparent 0.75px);
+            background-size: 24px 24px;
+        }
+
+        /* Main Container with Neo-Brutalist Border & Shadow */
+        .page-container {
+            max-width: 1320px;
+            margin: 20px auto;
+            background-color: var(--surface-color);
+            border: 2px solid var(--border-color);
+            box-shadow: 8px 8px 0px var(--border-color);
+            position: relative;
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Corner Crop Marks */
+        .crop-mark {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-color: var(--border-color);
+            border-style: solid;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .crop-tl { top: -6px; left: -6px; border-width: 2px 0 0 2px; }
+        .crop-tr { top: -6px; right: -6px; border-width: 2px 2px 0 0; }
+        .crop-bl { bottom: -6px; left: -6px; border-width: 0 0 2px 2px; }
+        .crop-br { bottom: -6px; right: -6px; border-width: 0 2px 2px 0; }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 32px;
+            border-bottom: 2px solid var(--border-color);
+            background-color: var(--surface-color);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            font-size: 1.25rem;
+            letter-spacing: -0.03em;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-lime);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: spinPulse 6s infinite linear;
+            color: #111;
+        }
+
+        @keyframes spinPulse {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-lime-hover);
+            text-decoration: underline;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+            background-color: var(--surface-alt);
+            border: 2px solid var(--border-color);
+            padding: 8px 14px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-brut-sm);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-main);
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px var(--border-color);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            padding: 60px 48px;
+            gap: 40px;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--accent-lime);
+            border: 2px solid var(--border-color);
+            padding: 6px 14px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: var(--shadow-brut-sm);
+            margin-bottom: 24px;
+            animation: floatBadge 3s ease-in-out infinite;
+            color: #111;
+        }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.3rem, 4.2vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+        }
+
+        .hero-title span {
+            background-color: var(--accent-lime);
+            color: #111;
+            padding: 0 6px;
+            border: 2px solid var(--border-color);
+            display: inline-block;
+            box-shadow: 3px 3px 0px var(--border-color);
+            animation: pulseGlow 2.5s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.02); }
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-bottom: 36px;
+            max-width: 520px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-lime);
+            border: 2px solid var(--border-color);
+            padding: 14px 28px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-brut);
+            text-decoration: none;
+            color: #111;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        .btn-primary:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 7px 7px 0px var(--border-color);
+        }
+
+        .btn-secondary {
+            background-color: var(--surface-color);
+            border: 2px solid var(--border-color);
+            padding: 14px 28px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-brut);
+            text-decoration: none;
+            color: var(--text-main);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        .btn-secondary:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 7px 7px 0px var(--border-color);
+            background-color: var(--surface-alt);
+        }
+
+        /* Mini Feature Cards Row */
+        .hero-features-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .mini-card {
+            background-color: var(--surface-color);
+            border: 2px solid var(--border-color);
+            padding: 16px;
+            box-shadow: var(--shadow-brut-sm);
+            transition: transform 0.2s;
+        }
+
+        .mini-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .mini-card-icon {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .mini-card h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .mini-card p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Right Hero Graphic / Animation Box */
+        .hero-graphic-box {
+            position: relative;
+            background-color: var(--surface-alt);
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow-brut);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 360px;
+        }
+
+        .vector-burst {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 140px;
+            height: 140px;
+            background-color: var(--accent-lime);
+            clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
+            border: 2px solid var(--border-color);
+            animation: burstPulse 4s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+
+        @keyframes burstPulse {
+            0% { transform: scale(0.9) rotate(0deg); opacity: 0.85; }
+            100% { transform: scale(1.05) rotate(15deg); opacity: 1; }
+        }
+
+        .animated-dashboard-preview {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            background-color: var(--surface-color);
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow-brut-sm);
+            padding: 20px;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #22c55e;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: inline-block;
+            animation: blinkDot 1s infinite alternate;
+        }
+
+        @keyframes blinkDot {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .metric-bar-container {
+            margin-bottom: 12px;
+        }
+
+        .metric-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .metric-track {
+            height: 10px;
+            background-color: var(--surface-alt);
+            border: 2px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .metric-fill {
+            height: 100%;
+            background-color: var(--accent-lime);
+            width: 0%;
+            animation: loadBar 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .fill-1 { animation-delay: 0.3s; width: 88% !important; }
+        .fill-2 { animation-delay: 0.6s; width: 94% !important; }
+        .fill-3 { animation-delay: 0.9s; width: 79% !important; }
+
+        @keyframes loadBar {
+            from { width: 0%; }
+        }
+
+        /* Multimedia & Interactive Section */
+        .multimedia-section {
+            padding: 60px 48px;
+            border-bottom: 2px solid var(--border-color);
+            background-color: var(--surface-alt);
+        }
+
+        .section-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .media-card {
+            background-color: var(--surface-color);
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow-brut);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .media-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .media-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .media-preview-wrapper {
+            border: 2px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: var(--shadow-brut-sm);
+            background-color: #000;
+        }
+
+        .media-preview-wrapper img,
+        .media-preview-wrapper video {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s;
+        }
+
+        .media-preview-wrapper img:hover {
+            transform: scale(1.03);
+        }
+
+        /* Bottom Ticker Bar featuring Icons */
+        .bottom-ticker-bar {
+            background-color: var(--surface-color);
+            border-top: 2px solid var(--border-color);
+            padding: 20px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .ticker-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ticker-icons-row {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .ticker-icon-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface-alt);
+            padding: 6px 12px;
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow-brut-sm);
+            transition: transform 0.2s;
+        }
+
+        .ticker-icon-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .ticker-icon-item a {
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .ticker-icon-item a:hover {
+            color: var(--accent-lime-hover);
+        }
+
+        /* Responsive design */
+        @media(max-width: 968px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+                padding: 40px 24px;
+            }
+            .media-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+            .multimedia-section {
+                padding: 40px 24px;
+            }
+            .bottom-ticker-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
-<body bgcolor="#0d0d0d" text="#e0e0e0">
+<body>
 
-    <table width="100%" cellpadding="10">
-        <tr>
-            <td align="center" valign="middle" width="200">
-                <img src="https://i.ibb.co/35cpFYDJ/download-1-removebg-preview.png" alt="Kian Luppoy Profile Picture" width="180" height="180">
-            </td>
-            <td align="left" valign="middle">
-                <h1 align="left" style="margin: 0;"><font color="#ff1a1a">Kian Luppoy</font></h1>
-                <p align="left" style="margin: 5px 0 0 0;"><strong><font color="#b3b3b3">Bachelor of Science in Information Technology (BSIT-1B)</font></strong></p>
-            </td>
-        </tr>
-    </table>
-    
-    <hr color="#ff1a1a" size="2">
+<div class="page-container">
+    <!-- Corner Crop Marks -->
+    <div class="crop-mark crop-tl"></div>
+    <div class="crop-mark crop-tr"></div>
+    <div class="crop-mark crop-bl"></div>
+    <div class="crop-mark crop-br"></div>
 
-    <h2><font color="#ff4d4d">About Me</font></h2>
-    <p>Hello! My name is Kian Luppoy, a dedicated student currently pursuing a Bachelor of Science in Information Technology in section BSIT-1B.<br>I have a strong passion for exploring how systems work under the hood, focusing on software development, system architecture, and cybersecurity.<br>My goal is to continuously expand my technical background to build secure, efficient, and impactful digital solutions for our community.</p>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#" class="logo-area">
+            <span>K1ANZH3N<span style="color: var(--text-muted);"> I.T</span> BUSSINESS SOLUTION</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#hero">Solutions</a></li>
+            <li><a href="#multimedia">Infrastructure</a></li>
+            <li><a href="https://www.csrc.nist.gov" target="_blank">Security ↗</a></li>
+            <li><a href="https://www.gartner.com" target="_blank">External Resources ↗</a></li>
+        </ul>
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Switch Light/Dark Mode">
+            <span id="themeIcon">🌙</span>
+            <span id="themeText">Dark Mode</span>
+        </button>
+    </nav>
 
-    <hr color="#330000" size="1">
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+        <div class="hero-content">
+            <div class="badge-tag">
+                <span class="status-dot"></span>
+                <span>Information Technology in the Business Sector</span>
+            </div>
+            <h1 class="hero-title">
+                AUTOMATE BUSINESS. SECURE DATA. <span>SCALE SMARTER.</span>
+            </h1>
+            <p class="hero-desc">
+                Deploying robust cloud computing architecture, automated data pipelines, and zero-trust cybersecurity frameworks to maximize corporate agility and revenue growth.
+            </p>
+            <div class="hero-buttons">
+                <a href="#multimedia" class="btn-primary">
+                    <span>Explore Business IT</span>
+                    <span>→</span>
+                </a>
+                <a href="https://en.wikipedia.org/wiki/Information_technology" target="_blank" class="btn-secondary">
+                    <span>IT Documentation ↗</span>
+                </a>
+            </div>
 
-    <h2><font color="#ff4d4d">My Skills</font></h2>
-    <p>Here are some of the technical skills and core competencies I have developed:</p>
-    <ul>
-        <li>Web Development (HTML, TypeScript, Next.js, React)</li>
-        <li>Backend & Database Management (Python, PHP, PostgreSQL, Supabase)</li>
-        <li>System Architecture & Linux Environments (Ubuntu, Debian, Kali Linux)</li>
-        <li>Cybersecurity Concepts & Vulnerability Research</li>
-        <li>Version Control & Infrastructure Configuration (Git, Cloudflare, Hostinger)</li>
-    </ul>
+            <!-- Mini Feature Cards Row -->
+            <div class="hero-features-row">
+                <div class="mini-card">
+                    <div class="mini-card-icon"></div>
+                    <h4>Cloud Scale</h4>
+                    <p>High-availability clusters</p>
+                </div>
+                <div class="mini-card">
+                    <div class="mini-card-icon"></div>
+                    <h4>Cyber Defense</h4>
+                    <p>Zero-trust encryption</p>
+                </div>
+                <div class="mini-card">
+                    <div class="mini-card-icon"></div>
+                    <h4>Data Analytics</h4>
+                    <p>Real-time BI dashboards</p>
+                </div>
+            </div>
+        </div>
 
-    <h2><font color="#ff4d4d">My Hobbies and Interests</font></h2>
-    <p>Outside of coding and technical lab work, here are activities and topics I enjoy:</p>
-    <ol>
-        <li>Studying network security principles and practicing penetration testing labs.</li>
-        <li>Following Formula 1 racing and analyzing high-performance engineering.</li>
-    </ol>
+        <!-- Animated Graphic / Vector Showcase Box -->
+        <div class="hero-graphic-box">
+            <div class="vector-burst"></div>
+            <div class="animated-dashboard-preview">
+                <div class="preview-header">
+                    <span>SYSTEM_DIAGNOSTICS.EXE</span>
+                    <span style="display: flex; align-items: center; gap: 6px;"><span class="status-dot"></span> LIVE</span>
+                </div>
+                <div class="metric-bar-container">
+                    <div class="metric-info">
+                        <span>Cloud Infrastructure Uptime</span>
+                        <span>99.98%</span>
+                    </div>
+                    <div class="metric-track">
+                        <div class="metric-fill fill-1"></div>
+                    </div>
+                </div>
+                <div class="metric-bar-container">
+                    <div class="metric-info">
+                        <span>Enterprise Firewall Security</span>
+                        <span>Optimized</span>
+                    </div>
+                    <div class="metric-track">
+                        <div class="metric-fill fill-2"></div>
+                    </div>
+                </div>
+                <div class="metric-bar-container">
+                    <div class="metric-info">
+                        <span>Automated Pipeline Efficiency</span>
+                        <span>+142%</span>
+                    </div>
+                    <div class="metric-track">
+                        <div class="metric-fill fill-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <hr color="#330000" size="1">
+    <!-- Multimedia & Interactive Showcase Section -->
+    <section class="multimedia-section" id="multimedia">
+        <div class="section-header">
+            <h2>Digital Infrastructure in Action</h2>
+            <p>Explore multimedia resources detailing how information technology integrates seamlessly into corporate enterprise environments.</p>
+        </div>
 
-    <h2><font color="#ff4d4d">Educational Background</font></h2>
-    <p><strong>College:</strong> Bachelor of Science in Information Technology (BSIT-1B)<br>
-    Focusing on programming, database systems, networking, and core IT infrastructure.</p>
-    <p><strong>Senior High School:</strong> ACLC College of Taytay<br>
-    Completed senior high school education with hands-on foundational IT training and collaborative research projects.</p>
+        <div class="media-grid">
+            <!-- Media Box 1: Image & Link -->
+            <div class="media-card">
+                <div>
+                    <h3>Enterprise Network Architecture</h3>
+                    <p>Visualizing centralized server nodes and secure database replication pipelines used by multinational corporations.</p>
+                </div>
+                <div class="media-preview-wrapper" style="margin-top: 16px;">
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80" alt="Server room data center infrastructure">
+                </div>
+                <a href="https://www.cisco.com" target="_blank" class="btn-primary" style="margin-top: 20px; display: inline-flex; justify-content: center; font-size: 0.85rem; padding: 10px 16px;">
+                    <span>Read Cisco Enterprise Guides ↗</span>
+                </a>
+            </div>
 
-    <h2><font color="#ff4d4d">Career Goal</font></h2>
-    <p>My ultimate career goal is to become a professional System Architect and Cybersecurity Specialist. I aspire to design resilient network infrastructures, lead tech-driven community initiatives, and help secure digital ecosystems against evolving vulnerabilities while continuously innovating through modern web technologies.</p>
+            <!-- Media Box 2: Video & Link -->
+            <div class="media-card">
+                <div>
+                    <h3>Automated Business Workflow Demo</h3>
+                    <p>Demonstrating how automated data pipelines streamline transaction processing and reduce human error in corporate operations.</p>
+                </div>
+                <div class="media-preview-wrapper" style="margin-top: 16px;">
+                    <video controls poster="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80">
+                        <source src="https://www.youtube.com/watch?v=PhVTDydFGo0" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <a href="https://www.youtube.com/watch?v=PhVTDydFGo0" target="_blank" class="btn-primary" style="margin-top: 20px; display: inline-flex; justify-content: center; font-size: 0.85rem; padding: 10px 16px;">
+                    <span>Explore IBM IT Solutions ↗</span>
+                </a>
+            </div>
+        </div>
+    </section>
 
-    <hr color="#330000" size="1">
+    <!-- Bottom Ticker Bar featuring Icons -->
+    <footer class="bottom-ticker-bar">
+        <div class="ticker-label">
+            <span class="status-dot"></span>
+            <span>&copy; 2026 kianzh3n bussiness solution &bull; Built for Efficient Enterprises</span>
+        </div>
+        <ul class="ticker-icons-row">
+            <li class="ticker-icon-item">
+                <span></span>
+                <a href="https://github.com" target="_blank">Servers ↗</a>
+            </li>
+            <li class="ticker-icon-item">
+                <span></span>
+                <a href="https://aws.amazon.com" target="_blank">Cloud ↗</a>
+            </li>
+            <li class="ticker-icon-item">
+                <span></span>
+                <a href="https://www.postgresql.org" target="_blank">Database ↗</a>
+            </li>
+            <li class="ticker-icon-item">
+                <span></span>
+                <a href="https://www.iso.org" target="_blank">Security ↗</a>
+            </li>
+            <li class="ticker-icon-item">
+                <span></span>
+                <a href="#hero">Analytics ↗</a>
+            </li>
+        </ul>
+    </footer>
 
-    <h2><font color="#ff4d4d">Projects and Achievements</font></h2>
-    <p>Here are two key projects I have worked on:</p>
-    <ul>
-        <li><strong>Web-Based Attendance System with QR Code and SMS Notification:</strong> Developed an automated attendance tracking solution utilizing QR codes and SMS API integration for efficient record management.</li>
-        <li><strong>Vulnerability Research Platform (zploit.lol):</strong> Created a personal platform featuring proof-of-concept research labs and interactive security challenges.</li>
-    </ul>
+</div>
 
-    <h2><font color="#ff4d4d">Find Me Online</font></h2>
-    <p>Connect with me or explore my work through my professional and repository links below:</p>
-    <p>
-        GitHub Profile: <a href="https://github.com/kianluppoy8-sys" target="_blank"><font color="#ff4d4d">github.com/kianluppoy8-sys</font></a><br>
-        Live Portfolio / Site: <a href="https://k1anzh3n.vercel.app/" target="_blank"><font color="#ff4d4d">k1anzh3n.vercel.app</font></a><br>
-    </p>
+<!-- JavaScript for Dark/Light Mode Theme Toggle -->
+<script>
+    function toggleTheme() {
+        const htmlElement = document.documentElement;
+        const currentTheme = htmlElement.getAttribute('data-theme');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+
+        if (currentTheme === 'dark') {
+            htmlElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+            themeIcon.textContent = '🌙';
+            themeText.textContent = 'Dark Mode';
+        } else {
+            htmlElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            themeIcon.textContent = '☀️';
+            themeText.textContent = 'Light Mode';
+        }
+    }
+
+    // Initialize theme from localStorage on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('theme');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.textContent = '☀️';
+            themeText.textContent = 'Light Mode';
+        }
+    });
+</script>
 
 </body>
 </html>
